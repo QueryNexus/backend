@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
 const { createChatSession } = require("./config/gemini");
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -11,6 +12,8 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+
+app.use(userRouter);
 
 // Test route
 app.get("/", async (req, res) => {

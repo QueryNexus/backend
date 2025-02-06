@@ -1,4 +1,4 @@
-import { createChatSession } from "../config/gemini";
+const { createChatSession } = require("../config/gemini");
 
 export const initialPromptGenerator = async (data) => {
   const prompt = `
