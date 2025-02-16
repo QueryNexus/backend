@@ -1,5 +1,4 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-require("dotenv").config();
 
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -15,24 +14,20 @@ const generationConfig = {
   maxOutputTokens: 8192,
   responseMimeType: "text/plain",
 };
+const createChatSession = async (history = []) => {
+   try {
+     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-async function createChatSession(history = []) {
-  try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+     const chatSession = model.startChat({
+       history,
+       generationConfig,
+     });
 
-
-    const chatSession = model.startChat({
-      history,
-      generationConfig,
-    });
-
-    return chatSession;
-  } catch (error) {
-    console.error("Error initializing chat session:", error);
-    throw error;
-  }
-}
-
-module.exports = {
-  createChatSession,
+     return chatSession;
+   } catch (error) {
+     console.error("Error initializing chat session:", error);
+     throw error;
+   }
 };
+
+module.exports = { createChatSession };

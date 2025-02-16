@@ -1,6 +1,6 @@
 const { createChatSession } = require("../config/gemini");
 
-export const initialPromptGenerator = async (data) => {
+const initialPromptGenerator = async (data) => {
   const prompt = `
      You are an AI assistant that converts structured company data into a well-formed customer-facing response.
     Instructions:  
@@ -37,3 +37,6 @@ export const initialPromptGenerator = async (data) => {
   const response = await chatSession.sendMessage(prompt);
   return response.response.candidates[0].content.parts;
 };
+
+
+module.exports = { initialPromptGenerator };

@@ -1,16 +1,5 @@
 const mongoose = require("mongoose");
 
-const questionAnswerSchema = new mongoose.Schema({
-  question: {
-    type: String,
-    required: true,
-  },
-  answer: {
-    type: String,
-    required: true,
-  },
-});
-
 const companySchema = new mongoose.Schema(
   {
     uid: {
@@ -21,55 +10,80 @@ const companySchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
-    industry: String,
-    website: String,
-    description: String,
+    legal_name: {
+      type: String,
+      trim: true,
+    },
+    industry: {
+      type: String,
+      required: true,
+    },
+    website: {
+      type: String,
+      trim: true,
+    },
+    description: {
+      type: String,
+      trim: true,
+    },
+    privacy_policy: String,
+    services: [String],
+    terms_and_conditions: String,
+    founded_year: Number,
+    company_size: {
+      type: String,
+      enum: ["1-10", "11-50", "51-200", "201-500", "501-1000", "1000+"],
+    },
+    contact: {
+      email: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      phone: {
+        type: String,
+        trim: true,
+      },
+    },
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      country: String,
+      postal_code: String,
+    },
+    social_media: {
+      linkedin: String,
+      twitter: String,
+      facebook: String,
+      instagram: String,
+    },
     support_hours: String,
-    location: String,
-    other_branches: [String],
-    main_questions: [
+    location: {
+      type: String,
+      required: true,
+    },
+    other_branches: [
       {
-        question: {
-          type: String,
-          required: true,
-        },
-        answer: {
-          type: String,
-          required: true,
-        },
+        name: String,
+        address: String,
+        contact: String,
       },
     ],
-    other_questions: [questionAnswerSchema],
+    logo_url: String,
+    status: {
+      type: String,
+      enum: ["active", "inactive", "suspended"],
+      default: "active",
+    },
+    other_details: mongoose.Schema.Types.Mixed, // This can store any type of data
   },
   {
     timestamps: true,
   }
 );
 
-// Adding default main questions
-companySchema.pre("save", function (next) {
-  if (!this.main_questions || this.main_questions.length === 0) {
-    this.main_questions = [
-      {
-        question: "What are your business hours?",
-        answer: "Please update your business hours",
-      },
-      {
-        question: "What is your refund policy?",
-        answer: "Please update your refund policy",
-      },
-      {
-        question: "How can I contact customer support?",
-        answer: "Please update your contact information",
-      },
-      {
-        question: "What services/products do you offer?",
-        answer: "Please update your services/products information",
-      },
-    ];
-  }
-  next();
-});
 
 module.exports = mongoose.model("Company", companySchema);
