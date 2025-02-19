@@ -4,7 +4,7 @@ const connectDB = require("./config/db");
 const { createChatSession } = require("./config/gemini");
 const userRouter = require("./routes/userRoutes");
 const companyRouter = require("./routes/companyRouter");
-const { initialPromptGenerator } = require("./utils/initialPromptGenerator");
+const queriesRouter = require("./routes/queriesRouter");
 const GeneralChat = require("./models/GeneralChat"); // Adjust the path as needed
 
 const app = express();
@@ -18,11 +18,9 @@ app.use(express.json());
 
 app.use(userRouter);
 app.use(companyRouter);
+app.use(queriesRouter);
 
-app.get("/getPrompt",async (req,res)=>{
-  const prompt = await initialPromptGenerator(req.body);
-  res.status(200).json(prompt);
-});
+
 
 
 // Test route
