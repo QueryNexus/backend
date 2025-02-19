@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const companySchema = new mongoose.Schema(
   {
     uid: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },
@@ -73,11 +73,6 @@ const companySchema = new mongoose.Schema(
       },
     ],
     logo_url: String,
-    status: {
-      type: String,
-      enum: ["active", "inactive", "suspended"],
-      default: "active",
-    },
     other_details: mongoose.Schema.Types.Mixed, // This can store any type of data
   },
   {

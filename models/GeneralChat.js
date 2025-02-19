@@ -16,13 +16,9 @@ const messageSchema = new mongoose.Schema({
   },
 });
 
-const chatSchema = new mongoose.Schema(
+const generalChatSchema = new mongoose.Schema(
   {
-    companyId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Company",
-      required: true,
-    },
+    userId: String,
     history: [messageSchema],
   },
   {
@@ -30,4 +26,4 @@ const chatSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Chat", chatSchema);
+module.exports = mongoose.model("GeneralChat", generalChatSchema);
