@@ -20,4 +20,25 @@ const login = async (req, res) => {
     }
 }
 
-module.exports = { login };
+const userExists = async (req,res) =>{
+  try {
+    const {uid} = req.body;
+    const user = await User.findOne({ uid: uid }).populate({
+      path: 'companyIds',
+      select: 'name'
+    });
+    if(!user){
+      res.status(404).json({
+        message:"User not Found"
+      })
+    }
+
+    res.status(200).json(user);
+    
+  } catch (error) {
+    res.status(500).json({message:"Internal Server Error"});
+    
+  }
+}
+
+module.exports = { login, userExists };
