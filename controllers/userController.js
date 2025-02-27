@@ -3,7 +3,6 @@ const User = require("../models/User");
 const login = async (req, res) => {
     try {
         const {uid,email,name,photo} = req.body;
-        res.json(req.body); // confirming data reachability
         const user = await User.findOne({ uid });
         if (!user) {
           const newUser = new User({
