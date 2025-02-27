@@ -2,6 +2,7 @@ const User = require("../models/User");
 
 const login = async (req, res) => {
     try {
+        res.json("data reached us"); // confirming data reachability
         const {uid,email,name,photo} = req.body;
         const user = await User.findOne({ uid });
         if (!user) {
