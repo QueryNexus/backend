@@ -3,6 +3,7 @@ const User = require("../models/User");
 const login = async (req, res) => {
     try {
         const {uid,email,name,photo} = req.body;
+        console.log(uid);
         const user = await User.findOne({ uid });
         if (!user) {
           const newUser = new User({
@@ -23,6 +24,8 @@ const login = async (req, res) => {
 const userExists = async (req,res) =>{
   try {
     const {uid} = req.body;
+    console.log("User ID : ", uid);
+
     const user = await User.findOne({ uid: uid }).populate({
       path: 'companyIds',
       select: 'name'
