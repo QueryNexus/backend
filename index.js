@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
+const serverless = require('serverless-http');
 const cors = require('cors');
 const userRouter = require("./routes/userRoutes");
 const companyRouter = require("./routes/companyRouter");
@@ -25,10 +26,7 @@ app.use(queriesRouter);
 
 
 app.get("/", async (req, res) => {
-    res.send("API is running...");
+    res.send("API is running on AWS...");
 });
 
-
-app.listen(PORT, () => {
-  console.log(`Server running on  http://localhost:${PORT}`);
-});
+module.exports.handler = serverless(app);
