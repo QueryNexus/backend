@@ -26,5 +26,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'ap-south-1'
         run: |
-          zip deploy.zip .
+          zip -r deploy.zip .
           aws lambda update-function-code --function-name querynexus-backend --zip-file fileb://deploy.zip
