@@ -7,7 +7,7 @@ const companyRouter = require("./routes/companyRouter");
 const queriesRouter = require("./routes/queriesRouter");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 
