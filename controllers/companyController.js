@@ -86,7 +86,7 @@ const getCompany = async (req, res) => {
     const { id } = req.params;
 
     // Find company by ID
-    const company = await Company.findById("67bcd1080c9cb95d46c85c8a");
+    const company = await Company.findById(id);
 
     if (!company) {
       return res.status(404).json({ message: "Company not found" });
