@@ -96,10 +96,7 @@ const getCompany = async (req, res) => {
     const user = await User.findOne({ uid: company.uid });
 
     // Return company data along with user info if available
-    res.status(200).json({
-      company,
-      userInfo: user ? { name: user.name, email: user.email } : null,
-    });
+    res.status(200).json(company);
   } catch (error) {
     console.error("Error fetching company:", error);
     res
