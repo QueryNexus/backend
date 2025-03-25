@@ -108,6 +108,36 @@ const getCompany = async (req, res) => {
   }
 };
 
+const getUserCompany = async (req, res) => {
+  try {
+    const { uid } = req.params;
+
+     const user = await User.findOne({ uid });
+     if (!user) return res.status(404).json({ message: "User not found" });
+
+     // Find the company associated with the user
+    const company = await Company.find({ uid: user.uid })
+    .populate({
+      path: 'companyIds',
+      select: 'name'
+    });
+
+    if(!company){
+      return res.status(404).json({
+        message:"User does not belong to any company"
+      })
+    }
+
+    // Return company data along with user info if available
+    res.status(200).json(company);
+  } catch (error) {
+    console.error("Error fetching user's company:", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
 const updateCompany = async (req, res) => {
   try {
     const { id } = req.params;
@@ -211,9 +241,13 @@ const deleteCompany = async (req, res) => {
   }
 };
 
+
+
+
 module.exports = {
   createCompany,
   getCompany,
   updateCompany,
   deleteCompany,
+  getUserCompany,
 };

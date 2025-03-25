@@ -1,6 +1,7 @@
 const { createChatSession } = require("../config/gemini");
 const Chat = require("../models/Chat");
 const Company = require("../models/Company");
+const Query = require("../models/Query");
 
 const handleQuery = async (req, res) => {
   try {
@@ -60,6 +61,15 @@ const handleQuery = async (req, res) => {
     }
 
     console.timeEnd("Total Query Time");
+    const dbQuery = new Query({
+      companyId,
+      query,
+      category: parsedResponse.category,
+      response: parsedResponse.mailbody,
+
+    })
+
+    await dbQuery.save();
 
     res.json({
       message: "Query handled successfully",
@@ -72,5 +82,32 @@ const handleQuery = async (req, res) => {
       .json({ error: "Internal server error", details: error.message });
   }
 };
+const getCompanyQueries = async (req, res) => {
+  try {
+    const { companyId } = req.params;
 
-module.exports = { handleQuery };
+    // Check if the company exists
+    const company = await Company.findById(companyId).lean();
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    // Fetch all queries for the company
+    const queries = await Query.find({ companyId })
+      .sort({ createdAt: -1 }) // Sort by newest first
+      .lean();
+
+    res.json({
+      message: "Queries fetched successfully",
+      queries,
+    });
+  } catch (error) {
+    console.error("Error fetching company queries:", error);
+    res.status(500).json({
+      error: "Internal server error",
+      details: error.message,
+    });
+  }
+};
+
+module.exports = { handleQuery, getCompanyQueries };

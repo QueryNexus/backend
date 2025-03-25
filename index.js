@@ -22,9 +22,6 @@ app.use(companyRouter);
 app.use(queriesRouter);
 
 
-
-
-
 app.get("/", async (req, res) => {
     res.send("API is running on AWS...");
 });
