@@ -12,10 +12,6 @@ const companySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    legal_name: {
-      type: String,
-      trim: true,
-    },
     industry: {
       type: String,
       required: true,
@@ -29,8 +25,18 @@ const companySchema = new mongoose.Schema(
       trim: true,
     },
     privacy_policy: String,
-    services: [String],
     terms_and_conditions: String,
+    returnpolicy: String,
+    services: [String],
+    products:[String],
+    services_provided_in: [String],
+    board_members:{
+      ceo: {type: String},
+      cto: {type: String},
+      cfo: {type: String},
+      cmo: {type: String},
+    },
+    expected_service_time:{type: String},
     founded_year: Number,
     company_size: {
       type: String,
@@ -65,13 +71,6 @@ const companySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    other_branches: [
-      {
-        name: String,
-        address: String,
-        contact: String,
-      },
-    ],
     logo_url: String,
     other_details: mongoose.Schema.Types.Mixed, // This can store any type of data
   },
