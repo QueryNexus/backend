@@ -17,7 +17,7 @@ app.use(userRouter);
 app.use(companyRouter);
 app.use(queriesRouter);
 
-app.get("/", async (req, res) => {
+app.get("/", async (_, res) => {
   res.send("API is running...");
 });
 
